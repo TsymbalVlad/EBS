@@ -1,0 +1,53 @@
+﻿@model List<WEB.Models.CarOrder>
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+
+
+    <style>
+        .card {
+            margin-top: 20px;
+            overflow: hidden;
+        }
+    </style>
+<div class="container">
+    <h1 class="text-center" style="color: gray;">Order History: </h1>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @foreach (var ord in Model)
+        {
+            <div class="col">
+                <div class="card shadow-lg h-100">
+                    <img src="@ord.imagepath" alt="Car Photo" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">@ord.car_name</h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Seats: @ord.num_seats</li>
+                            <li class="list-group-item">Fuel Consumption: @ord.fuel_name</li>
+                            <li class="list-group-item">Drive: @ord.drive_name</li>
+                            <li class="list-group-item">Transmission: @ord.transmission_name</li>
+                        </ul>
+                        @if (ord.end_day > DateTime.Now)
+                        {
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item text-success">Start: @ord.start_day</li>
+                                <li class="list-group-item text-success">End: @ord.end_day</li>
+                            </ul>
+                        }
+                        else
+                        {
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item text-danger">Start: @ord.start_day</li>
+                                <li class="list-group-item text-danger">End: @ord.end_day</li>
+                            </ul>
+                        }
+                    </div>
+                    <div class="card-footer">
+                        <span class="text-muted">Price: $@ord.price</span>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,70 @@
+﻿@model IEnumerable<WEB.Models.Cars>
+
+@{
+    ViewData["Title"] = "Cars";
+}
+
+<div class="banner mt-0">
+</div>
+
+<style>
+    .banner {
+        background-image: url(/images/salon.jpg);
+        background-size: cover;
+        background-position: center;
+        height: 600px;
+    }
+
+    .card {
+        margin-top: 20px;
+        overflow: hidden;
+    }
+
+    .card-columns {
+        column-count: 1;
+    }
+
+    .filter-section {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div class="container">
+    <div class="filter-section">
+        <div>
+            <label for="sort-select">Sort by:</label>
+            <select id="sort-select" onchange="sortCars(this.value)">
+                <option value="price_asc">Price (Low to High)</option>
+                <option value="price_desc">Price (High to Low)</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @foreach (var cars in Model)
+        {
+            <div class="col">
+                <div class="card shadow-lg h-100">
+                    <img src="@cars.imagepath" alt="Car Photo" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">@cars.car_name</h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Seats: @cars.num_seats</li>
+                            <li class="list-group-item">Fuel Consumption: @cars.fuel_name</li>
+                            <li class="list-group-item">Drive: @cars.drive_name</li>
+                            <li class="list-group-item">Transmission: @cars.transmission_name</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="text-muted">Price: $@cars.price</span>
+                            <a id="confirmButton" class="btn btn-primary" href="@Url.Action("Rent", "Car", new { id = cars.car_id })">Rent Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

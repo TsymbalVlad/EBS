@@ -1,0 +1,81 @@
+=============================Инструкция===================================
+1 - Запустите проект и введите эту команду в Package Manager Console - EntityFrameworkCore\Add-Migration
+2 - Затем запустите эту команду - EntityFrameworkCore\Update-Database
+3 - Далее необходимо создать представления в MSSQL - 
+
+Use Cars
+
+CREATE VIEW CarView
+AS
+SELECT
+    c.car_id,
+    c.car_name,
+    bt.body_name,
+    ct.car_type_name,
+    dt.drive_name,
+    f.fuel_name,
+    tr.transmission_name,
+    c.num_seats,
+    c.price,
+    c.imagepath
+FROM
+    Car c
+JOIN
+    BodyType bt ON c.body_id = bt.body_id
+JOIN
+    CarType ct ON c.type_id = ct.type_id
+JOIN
+    Drive_type dt ON c.drive_id = dt.drive_id
+JOIN
+    Fuel f ON c.fuel_id = f.fuel_id
+JOIN
+    Transmission tr ON c.transmission_id = tr.transmission_id;
+go
+
+
+CREATE VIEW Car_Order AS
+SELECT o.order_id,
+    c.car_id,
+    c.car_name,
+    c.body_name,
+    c.car_type_name,
+    c.drive_name,
+    c.fuel_name,
+    c.transmission_name,
+    c.num_seats,
+    c.price,
+    c.imagepath,
+ o.status_id,
+ o.AppUserId,
+ o.start_day,
+ o.end_day,
+ o.total_price
+FROM Orders o
+INNER JOIN CarView c ON c.car_id = o.car_id
+go
+
+4 - Дальше нужно создать аккаунт
+После создания аккаунт запустите этот код, для добавления роли и присваивания роли админа вам -
+
+INSERT INTO AspNetRoles (Id, Name, NormalizedName)
+VALUES ('1', 'Admin', 'Admin');
+
+
+DECLARE @userId NVARCHAR(450), @roleId NVARCHAR(128);
+SELECT TOP 1 @userId = Id FROM AspNetUsers;
+SELECT @roleId = Id FROM AspNetRoles WHERE Name = 'Admin';
+
+INSERT INTO AspNetUserRoles (UserId, RoleId)
+VALUES (@userId, @roleId);
+
+
+Осталось лишь добавить данные
+Reservation status:
+1 - In processing
+2 - Approved
+
+Остальные данные на ваше усмотрение.
+
+Примечания - 
+Я решил не выносить Brand в отдельную таблицу, так что название машины будет выглядеть вот так - "BMW X5"
+Я решил картинки сделать в виде путя к файлу, таким образом сайт будет быстрее прогружаться, особенно если много машин

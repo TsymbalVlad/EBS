@@ -1,5 +1,7 @@
-﻿using Dapper;
+﻿using Azure;
+using Dapper;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using System.Security.Claims;
 using TEST.Data;
 using TEST.Models;
@@ -19,6 +21,12 @@ namespace TEST.Endpoints.User
 		}
 
 		[HttpGet(Name = "GetCurrentUser")]
+		[SwaggerOperation(
+		Summary = "Get Current User",
+		Description = "This API return information about current User",
+		OperationId = "GetCurrentUser",
+		Tags = new[] { "User Endpoint" })]
+
 		public override async Task<UserModel> HandleAsync(CancellationToken cancellationToken)
 		{
 			var identity = HttpContext.User.Identity as ClaimsIdentity;

@@ -1,5 +1,7 @@
-﻿using Dapper;
+﻿using Azure;
+using Dapper;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using TEST.Data;
 using TEST.Models;
 
@@ -18,6 +20,11 @@ namespace TEST.Endpoints.Restaurant
 		}
 
 		[HttpGet("menu/{id}", Name = "GetMenuByRestaurantId")]
+		[SwaggerOperation(
+		Summary = "Get Menu By Restaurant Id",
+		Description = "This API return Menu for Restaurant with a specific Id",
+		OperationId = "GetMenuByRestaurantId",
+		Tags = new[] { "Restaurant Endpoint" })]
 		public override async Task<ActionResult<IEnumerable<Menu>>> HandleAsync(int id, CancellationToken cancellationToken)
 		{
 			string query = $"SELECT * FROM Menu Where restaurant_id = {id}";

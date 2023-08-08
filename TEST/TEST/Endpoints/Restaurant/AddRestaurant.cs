@@ -1,5 +1,7 @@
-﻿using Dapper;
+﻿using Azure;
+using Dapper;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using TEST.Data;
 using TEST.Models;
 
@@ -19,6 +21,11 @@ namespace TEST.Endpoints.Restaurant
 		}
 
 		[HttpPost("add", Name = "AddRestaurant")]
+		[SwaggerOperation(
+		Summary = "Add new Restaurant",
+		Description = "This API will add information about Restaurant in DB",
+		OperationId = "AddRestaurant",
+		Tags = new[] { "Restaurant Endpoint" })]
 		public override async Task<ActionResult<RestaurantModel>> HandleAsync([FromBody] RestaurantModel restaurant, CancellationToken cancellationToken)
 		{
 			string query = "INSERT INTO Restaurant (restaurant_id, restaurant_name, adress_id) VALUES (@restaurant_id, @restaurant_name, @adress_id)";

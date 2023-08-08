@@ -1,5 +1,7 @@
-﻿using Dapper;
+﻿using Azure;
+using Dapper;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using TEST.Data;
 using TEST.Models;
 
@@ -19,6 +21,11 @@ namespace TEST.Endpoints.FoodItem
 		}
 
 		[HttpPut("edit/{id}", Name = "EditFoodItem")]
+		[SwaggerOperation(
+		Summary = "Update Food Item By Id",
+		Description = "This API will update information about FoodItem by Id",
+		OperationId = "EditFoodItem",
+		Tags = new[] { "FoodItem Endpoint" })]
 		public override async Task<ActionResult<FoodItemData>> HandleAsync(int id, [FromBody] FoodItemData foodItem, CancellationToken cancellationToken)
 		{
 			string query = $"SELECT * FROM Fooditem WHERE item_id = {id}";

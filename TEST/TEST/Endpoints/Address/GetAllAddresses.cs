@@ -2,6 +2,8 @@
 using TEST.Models;
 using TEST.Data;
 using Dapper;
+using Azure;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace TEST.Endpoints.Address
 {
@@ -18,7 +20,12 @@ namespace TEST.Endpoints.Address
         }
 
         [HttpGet(Name = "GetAllAddresses")]
-        public override async Task<ActionResult<IEnumerable<AdressModel>>> HandleAsync(CancellationToken cancellationToken)
+		[SwaggerOperation(
+		Summary = "Get Addresses",
+		Description = "This API returns full list of Addresses",
+		OperationId = "GetAllAddresses",
+		Tags = new[] { "Address Endpoint" })]
+		public override async Task<ActionResult<IEnumerable<AdressModel>>> HandleAsync(CancellationToken cancellationToken)
         {
             string query = "SELECT * FROM Adres";
 

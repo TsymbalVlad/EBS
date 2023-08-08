@@ -1,6 +1,8 @@
-﻿using Dapper;
+﻿using Azure;
+using Dapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using System.Data;
 using TEST.Data;
 using TEST.Models;
@@ -21,6 +23,11 @@ namespace TEST.Endpoints.User
 		}
 		[Authorize(Roles = "Admin")]
 		[HttpPost("add", Name = "AddUser")]
+		[SwaggerOperation(
+		Summary = "Add new User",
+		Description = "This API will add information about User in DB",
+		OperationId = "AddUser",
+		Tags = new[] { "User Endpoint" })]
 		public override async Task<ActionResult<UserData>> HandleAsync([FromBody] UserData user, CancellationToken cancellationToken)
 		{
 			string query = @"INSERT INTO Users 

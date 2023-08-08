@@ -1,5 +1,7 @@
-﻿using Dapper;
+﻿using Azure;
+using Dapper;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using TEST.Data;
 using TEST.Models;
 
@@ -19,6 +21,11 @@ namespace TEST.Endpoints.Address
 		}
 
 		[HttpPut("edit/{id}", Name = "UpdateAddressById")]
+		[SwaggerOperation(
+		Summary = "Update Address",
+		Description = "This API will update Address info by Address Id",
+		OperationId = "UpdateAddressById",
+		Tags = new[] { "Address Endpoint" })]
 		public override async Task<ActionResult<AdressModel>> HandleAsync(int id, [FromBody] AdressModel addressData, CancellationToken cancellationToken)
 		{
 			string query = $"SELECT * FROM Adres WHERE adress_id = {id}";

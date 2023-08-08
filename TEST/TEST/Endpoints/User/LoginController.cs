@@ -6,10 +6,12 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using TEST.Models;
+using Azure;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Test.Controllers
 {
-	[Route("[controller]")]
+	[Route("user")]
 	[ApiController]
 	public class LoginController : ControllerBase
 	{
@@ -22,6 +24,11 @@ namespace Test.Controllers
 
 		[AllowAnonymous]
 		[HttpPost]
+		[SwaggerOperation(
+		Summary = "Login",
+		Description = "Login",
+		OperationId = "Login",
+		Tags = new[] { "User Endpoint" })]
 		public IActionResult Login([FromBody] UserLogin userLogin)
 		{
 			var user = Authenticate(userLogin);

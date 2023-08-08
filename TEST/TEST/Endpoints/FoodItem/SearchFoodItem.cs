@@ -1,5 +1,7 @@
-﻿using Dapper;
+﻿using Azure;
+using Dapper;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using TEST.Data;
 using TEST.Models;
 
@@ -18,6 +20,11 @@ namespace TEST.Endpoints.FoodItem
 		}
 
 		[HttpGet("{Query}", Name = "SearchFoodItem")]
+		[SwaggerOperation(
+		Summary = "Search Food Item By Name",
+		Description = "This API куегкт information about Food Items whose names contain the query",
+		OperationId = "SearchFoodItem",
+		Tags = new[] { "FoodItem Endpoint" })]
 		public override async Task<ActionResult<IEnumerable<FoodItemModel>>> HandleAsync(string query, CancellationToken cancellationToken)
 		{
 			string sql = "SELECT * FROM Fooditem WHERE item_name LIKE '%' + @Query + '%'";

@@ -1,5 +1,7 @@
-﻿using Dapper;
+﻿using Azure;
+using Dapper;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using TEST.Data;
 using TEST.Models;
 
@@ -18,6 +20,11 @@ namespace TEST.Endpoints.FoodItem
 		}
 
 		[HttpGet(Name = "GetAllFoodItems")]
+		[SwaggerOperation(
+		Summary = "Get All Food Items",
+		Description = "This API return full list of FoodItems",
+		OperationId = "GetAllFoodItems",
+		Tags = new[] { "FoodItem Endpoint" })]
 		public override async Task<ActionResult<IEnumerable<FoodItemModel>>> HandleAsync(CancellationToken cancellationToken)
 		{
 			string query = "SELECT * FROM Fooditem";

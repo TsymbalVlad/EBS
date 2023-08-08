@@ -1,5 +1,7 @@
-﻿using Dapper;
+﻿using Azure;
+using Dapper;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using TEST.Data;
 using TEST.Models;
 
@@ -18,7 +20,12 @@ namespace TEST.Endpoints.Customers
         }
 
         [HttpGet(Name = "GetAllCustomers")]
-        public override async Task<ActionResult<IEnumerable<CustomersModel>>> HandleAsync(CancellationToken cancellationToken)
+		[SwaggerOperation(
+		Summary = "Get All Customers",
+		Description = "This API return full list of Customers",
+		OperationId = "GetAllCustomers",
+		Tags = new[] { "Customer Endpoint" })]
+		public override async Task<ActionResult<IEnumerable<CustomersModel>>> HandleAsync(CancellationToken cancellationToken)
         {
             string query = "SELECT * FROM Customer";
 

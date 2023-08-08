@@ -2,6 +2,8 @@
 using TEST.Models;
 using TEST.Data;
 using Dapper;
+using Azure;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace TEST.Endpoints.Address
 {
@@ -18,7 +20,12 @@ namespace TEST.Endpoints.Address
         }
 
         [HttpGet("{id}", Name = "GetCustomerById")]
-        public override async Task<ActionResult<CustomersModel>> HandleAsync(int id, CancellationToken cancellationToken)
+		[SwaggerOperation(
+		Summary = "Get Customer By Id",
+		Description = "This API will return information about Customer with a specific Id",
+		OperationId = "GetCustomerById",
+		Tags = new[] { "Customer Endpoint" })]
+		public override async Task<ActionResult<CustomersModel>> HandleAsync(int id, CancellationToken cancellationToken)
         {
             string query = $"SELECT * FROM Customer Where customer_id = {id}";
 

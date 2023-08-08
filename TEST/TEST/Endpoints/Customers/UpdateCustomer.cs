@@ -1,5 +1,7 @@
-﻿using Dapper;
+﻿using Azure;
+using Dapper;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using TEST.Data;
 using TEST.Models;
 
@@ -18,6 +20,11 @@ namespace TEST.Endpoints.Customers
 		}
 
 		[HttpPut("edit/{id}", Name = "UpdateCustomer")]
+		[SwaggerOperation(
+		Summary = "Update Customer",
+		Description = "This API will update Customer info by Customer Id",
+		OperationId = "UpdateCustomer",
+		Tags = new[] { "Customer Endpoint" })]
 		public override async Task<ActionResult<CustomersData>> HandleAsync(int id, [FromBody] CustomersData customersData, CancellationToken cancellationToken)
 		{
 			using var connection = ctx.CreateConnection();
